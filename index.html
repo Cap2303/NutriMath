@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriMath - Equipo 9</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <h1>🥗 NutriMath</h1>
+                <span class="tagline">Matemáticas aplicadas a la nutrición</span>
+            </div>
+            <div class="header-acciones">
+                <button id="btn-guardar-sesion" class="btn-header">Guardar Sesión</button>
+            </div>
+        </div>
+        <nav id="nav-principal">
+            <button class="nav-btn active" data-seccion="perfil">Perfil</button>
+            <button class="nav-btn" data-seccion="comidas">Comidas</button>
+            <button class="nav-btn" data-seccion="ecuaciones">Ecuaciones</button>
+            <button class="nav-btn" data-seccion="dashboard">Dashboard</button>
+            <button class="nav-btn" data-seccion="dieta">Dieta</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SECCIÓN PERFIL -->
+        <section id="perfil" class="seccion active">
+            <h2>Perfil del Usuario</h2>
+            <div class="card">
+                <div class="form-grid">
+                    <label>Peso (kg)
+                        <input type="number" id="peso" placeholder="64" min="30" max="250" step="0.1">
+                    </label>
+                    <label>Altura (cm)
+                        <input type="number" id="altura" placeholder="184" min="120" max="230" step="0.1">
+                    </label>
+                    <label>Edad
+                        <input type="number" id="edad" placeholder="18" min="10" max="100" step="1">
+                    </label>
+                    <label>Sexo
+                        <select id="sexo">
+                            <option value="m">Masculino</option>
+                            <option value="f">Femenino</option>
+                        </select>
+                    </label>
+                    <label>Objetivo
+                        <select id="objetivo">
+                            <option value="volumen">Volumen (subir masa)</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="deficit">Déficit (bajar grasa)</option>
+                        </select>
+                    </label>
+                </div>
+                <button id="btn-calcular-perfil" class="btn-primary">Calcular Perfil</button>
+            </div>
+
+            <div id="resultado-perfil" class="card resultado hidden"></div>
+        </section>
+
+        <!-- SECCIÓN COMIDAS -->
+        <section id="comidas" class="seccion">
+            <h2>Registro de Comidas</h2>
+
+            <div class="card">
+                <h3>Agregar Alimento</h3>
+                <div class="form-grid">
+                    <label>Tiempo de comida
+                        <select id="tiempo-comida">
+                            <option value="desayuno">Desayuno</option>
+                            <option value="comida">Comida</option>
+                            <option value="cena">Cena</option>
+                        </select>
+                    </label>
+                    <label>Alimento
+                        <select id="select-alimento"></select>
+                    </label>
+                    <label>Cantidad (g o ml)
+                        <input type="number" id="cantidad-alimento" placeholder="100" min="1">
+                    </label>
+                </div>
+                <button id="btn-agregar-alimento" class="btn-primary">Agregar</button>
+            </div>
+
+            <div class="card">
+                <h3>Alimentos Registrados</h3>
+                <div id="lista-comidas"></div>
+                <div class="acciones-comidas">
+                    <button id="btn-limpiar" class="btn-danger">Limpiar Registro Actual</button>
+                    <button id="btn-borrar-todo" class="btn-danger btn-borrar-todo">Borrar Todo (Sesión Completa)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN ECUACIONES -->
+        <section id="ecuaciones" class="seccion">
+            <h2>Calculadora de Sistemas de Ecuaciones</h2>
+
+            <div class="card">
+                <h3>Tipo de Sistema</h3>
+                <div class="tabs-internas">
+                    <button class="btn-interno active" data-tipo="2x2">Sistema 2×2</button>
+                    <button class="btn-interno" data-tipo="3x3">Sistema 3×3</button>
+                </div>
+            </div>
+
+            <div id="panel-2x2" class="card panel-ecuacion active">
+                <h3>Sistema 2×2 (Ej: Huevos y Jamón)</h3>
+                <p class="ayuda">Elige dos alimentos y define tus metas de calorías y grasas.</p>
+                <div class="form-grid">
+                    <label>Alimento 1 (x)
+                        <select id="alimento-x"></select>
+                    </label>
+                    <label>Alimento 2 (y)
+                        <select id="alimento-y"></select>
+                    </label>
+                    <label>Calorías objetivo (total)
+                        <input type="number" id="calorias-objetivo-2" placeholder="573">
+                    </label>
+                    <label>Grasas objetivo (g)
+                        <input type="number" id="grasas-objetivo-2" placeholder="36">
+                    </label>
+                </div>
+                <button id="btn-resolver-2x2" class="btn-primary">Resolver Sistema</button>
+                <div id="resultado-2x2" class="resultado hidden"></div>
+            </div>
+
+            <div id="panel-3x3" class="card panel-ecuacion">
+                <h3>Sistema 3×3 (Ej: Huevos, Jamón y Tortillas)</h3>
+                <p class="ayuda">Tres alimentos, tres ecuaciones: calorías, proteínas y carbohidratos.</p>
+                <div class="form-grid">
+                    <label>Alimento 1 (x)
+                        <select id="alimento-x3"></select>
+                    </label>
+                    <label>Alimento 2 (y)
+                        <select id="alimento-y3"></select>
+                    </label>
+                    <label>Alimento 3 (z)
+                        <select id="alimento-z3"></select>
+                    </label>
+                    <label>Calorías objetivo
+                        <input type="number" id="cal-3" placeholder="793">
+                    </label>
+                    <label>Proteínas objetivo (g)
+                        <input type="number" id="prot-3" placeholder="57">
+                    </label>
+                    <label>Carbohidratos objetivo (g)
+                        <input type="number" id="carb-3" placeholder="54.1">
+                    </label>
+                </div>
+                <button id="btn-resolver-3x3" class="btn-primary">Resolver Sistema</button>
+                <div id="resultado-3x3" class="resultado hidden"></div>
+            </div>
+
+            <div class="card">
+                <h3>Conversión a Joules</h3>
+                <p class="ayuda">1 kcal = 4184 J</p>
+                <label>Calorías a convertir
+                    <input type="number" id="kcal-a-joules" placeholder="204.5">
+                </label>
+                <button id="btn-convertir-joules" class="btn-primary">Convertir</button>
+                <div id="resultado-joules" class="resultado hidden"></div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DASHBOARD -->
+        <section id="dashboard" class="seccion">
+            <h2>Dashboard Nutricional</h2>
+
+            <div class="card">
+                <h3>Resumen del Día</h3>
+                <div id="resumen-totales" class="totales-grid"></div>
+            </div>
+
+            <div class="card">
+                <h3>Tabla: Desglose por Comida</h3>
+                <div class="tabla-wrapper">
+                    <table id="tabla-desglose">
+                        <thead>
+                            <tr>
+                                <th>Fase</th>
+                                <th>Alimentos</th>
+                                <th>kcal</th>
+                                <th>Grasas (g)</th>
+                                <th>Proteínas (g)</th>
+                                <th>Azúcares (g)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Gráfica de Barras: Consumo por Fase</h3>
+                <canvas id="grafica-barras"></canvas>
+            </div>
+
+            <div class="card">
+                <h3>Gráfica de Anillo: Distribución Calórica</h3>
+                <canvas id="grafica-anillo"></canvas>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DIETA RECOMENDADA -->
+        <section id="dieta" class="seccion">
+            <h2>Dieta Recomendada</h2>
+            <div id="contenido-dieta"></div>
+        </section>
+    </main>
+
+    <!-- Aviso flotante -->
+    <div id="aviso-bloqueo"></div>
+
+    <footer>
+        <p>Equipo 9 · Proyecto: Mi Alimentación en Números · Matemáticas aplicadas a la nutrición</p>
+    </footer>
+
+    <script src="alimentos.js"></script>
+    <script src="ecuaciones.js"></script>
+    <script src="graficas.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
